@@ -1,0 +1,14 @@
+res{
+	code.key: (e.g..200),
+	payload:
+	message:
+} format of responce: done
+
+req params validations: done
+
+headers{
+	platform authentication
+	version verification
+} authentication: done
+
+middleware in node: done
