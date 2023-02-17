@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const registerRoute = require("./api/routes/register");
 const loginRoute = require("./api/routes/login");
@@ -8,6 +9,7 @@ const shipmentRoute = require("./api/routes/shipments");
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -28,7 +30,7 @@ app.use((req, res, next) => {
 
 const middleware = require("./middelware/middleware");
 
-app.use("/register", middleware, registerRoute);
+app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 app.use("/shipment", shipmentRoute);
 
