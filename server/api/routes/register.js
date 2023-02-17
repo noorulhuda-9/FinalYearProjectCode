@@ -6,7 +6,7 @@ const validateEmail = require("../../validateEmail");
 const validatePassword = require("../../validatePassword");
 
 router.post("/", (req, res, next) => {
-  const name = req.body.name;
+  const name = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
 

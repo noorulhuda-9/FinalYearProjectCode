@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Axios from 'axios';
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -43,6 +44,22 @@ export default function RegisterPage() {
     setChecked(newChecked);
   };
   const classes = useStyles();
+
+  const [usernameReg, setUsernameReg] = useState('');
+  const [emailReg, setEmailReg] = useState('');
+  const [passwordReg, setPasswordReg] = useState('');
+
+  const register =  () => {
+    Axios.post('http://localhost:3000/register', {
+      username: usernameReg,
+      email: emailReg, 
+      password: passwordReg
+    }).then((response) => {
+      console.log(response);
+    });
+  };
+ 
+
   return (
     <div className={classes.container}>
       <GridContainer justify="center">
@@ -102,7 +119,10 @@ export default function RegisterPage() {
                             <Face className={classes.inputAdornmentIcon} />
                           </InputAdornment>
                         ),
-                        placeholder: "First Name..."
+                        placeholder: "First Name...",
+                        onChange: (e)=> {
+                          setUsernameReg(e.target.value);
+                        }
                       }}
                     />
                     <CustomInput
@@ -119,7 +139,10 @@ export default function RegisterPage() {
                             <Email className={classes.inputAdornmentIcon} />
                           </InputAdornment>
                         ),
-                        placeholder: "Email..."
+                        placeholder: "Email...",
+                        onChange: (e)=> {
+                          setEmailReg(e.target.value);
+                        }
                       }}
                     />
                     <CustomInput
@@ -138,7 +161,10 @@ export default function RegisterPage() {
                             </Icon>
                           </InputAdornment>
                         ),
-                        placeholder: "Password..."
+                        placeholder: "Password...",
+                        onChange: (e)=> {
+                          setPasswordReg(e.target.value);
+                        }
                       }}
                     />
                     <FormControlLabel
@@ -168,7 +194,7 @@ export default function RegisterPage() {
                       }
                     />
                     <div className={classes.center}>
-                      <Button round color="primary">
+                      <Button onClick={register} round color="primary">
                         Get started
                       </Button>
                     </div>
