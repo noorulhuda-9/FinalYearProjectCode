@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Axios from 'axios';
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,6 +37,21 @@ export default function LoginPage() {
     };
   });
   const classes = useStyles();
+
+  // const [usernameLog, setUsernameLog] = useState('');
+  const [emailLog, setEmailLog] = useState('');
+  const [passwordLog, setPasswordLog] = useState('');
+
+  const login =  () => {
+    Axios.post('http://localhost:3000/login', {
+      // username: usernameReg,
+      email: emailLog, 
+      password: passwordLog
+    }).then((response) => {
+      console.log(response.data);
+    });
+  };
+
   return (
     <div className={classes.container}>
       <GridContainer justify="center">
@@ -70,6 +86,9 @@ export default function LoginPage() {
                 <CustomInput
                   labelText="First Name.."
                   id="firstname"
+                  // onChange: (e)=> {
+                  //   setUsernameLog(e.target.value);
+                  // }
                   formControlProps={{
                     fullWidth: true
                   }}
@@ -92,7 +111,10 @@ export default function LoginPage() {
                       <InputAdornment position="end">
                         <Email className={classes.inputAdornmentIcon} />
                       </InputAdornment>
-                    )
+                    ),
+                    onChange: (e)=> {
+                      setEmailLog(e.target.value);
+                    }
                   }}
                 />
                 <CustomInput
@@ -110,12 +132,15 @@ export default function LoginPage() {
                       </InputAdornment>
                     ),
                     type: "password",
-                    autoComplete: "off"
+                    autoComplete: "off",
+                    onChange: (e)=> {
+                      setPasswordLog(e.target.value);
+                    }
                   }}
                 />
               </CardBody>
               <CardFooter className={classes.justifyContentCenter}>
-                <Button color="rose" simple size="lg" block>
+                <Button onClick={login} color="rose" simple size="lg" block>
                   Let{"'"}s Go
                 </Button>
               </CardFooter>
