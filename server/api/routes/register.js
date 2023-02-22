@@ -6,9 +6,15 @@ const validateEmail = require("../../validateEmail");
 const validatePassword = require("../../validatePassword");
 
 router.post("/", (req, res, next) => {
+  console.log("Getting inside POST request");
   const name = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
+
+  console.log(name);
+  console.log(email);
+  console.log(password);
+
 
   if (!validateEmail(email)) {
     res.status(500).json({
@@ -16,12 +22,16 @@ router.post("/", (req, res, next) => {
       payload: null,
       message: "Invalid email.",
     });
+    console.log("Getting past validateEmail if condition");
+
   } else if (!validatePassword(password)) {
     res.status(500).json({
       code: 500,
       payload: null,
       message: "Weak password.",
     });
+    console.log("Getting past validatePassword else if condition");
+
   } else {
     const mysql = require("mysql");
     const db = mysql.createConnection({
@@ -34,6 +44,7 @@ router.post("/", (req, res, next) => {
       "SELECT * FROM users WHERE email = ?",
       [email],
       async (error, result) => {
+      console.log("***********************Getting inside query*********************");
         if (error) {
           res.status(500).json({
             code: 500,
@@ -50,8 +61,9 @@ router.post("/", (req, res, next) => {
           let hashedPassword = await bcrypt.hash(password, 8);
           db.query(
             "INSERT INTO users(name, email, password) VALUES(?, ?, ?)",
-            [name, email, hashedPassword],
+            [name, email,hashedPassword],
             (error, result) => {
+              console.log("***********************Getting inside INSERT query*********************");
               if (error) {
                 res.status(500).json({
                   code: 500,
